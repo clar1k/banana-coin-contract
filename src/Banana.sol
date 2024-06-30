@@ -63,6 +63,22 @@ contract Banana {
         return _allowances[_owner][_spender];
     }
 
-    // function burnFrom()
-    // function mint()
+    function burnFromBalance(
+        address _from,
+        uint256 _value
+    ) public returns (bool success) {
+        if (balances[_from] < _value) {
+            return false;
+        }
+
+        balances[_from] -= _value;
+        _totalSupply -= _value;
+        return true;
+    }
+
+    function mint(address _to, uint256 _value) public returns (bool success) {
+        balances[_to] += _value;
+        _totalSupply += _value;
+        return true;
+    }
 }
