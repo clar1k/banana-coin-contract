@@ -1,6 +1,7 @@
 ## Contract
 
 - [ ] Deploy banana contract at sepolia network
+- [ ] Write script for deploying banana contract
 
 ## Contract functions
 
