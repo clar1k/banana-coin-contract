@@ -10,5 +10,5 @@
 - [x] Allowance mechanism
 - [x] Burn mechanism
 - [x] Check if it matches the ERC-20 standard
+- [x] Add events for ERC-20 implementation
 - [ ] Write tests with foundry
-- [ ] Add events for ERC-20 implementation

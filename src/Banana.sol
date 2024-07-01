@@ -6,6 +6,14 @@ contract Banana {
     mapping(address => mapping(address => uint256)) public _allowances;
     uint256 public _totalSupply;
 
+    event Transfer(address indexed _from, address indexed _to, uint256 _value);
+
+    event Approval(
+        address indexed _owner,
+        address indexed _spender,
+        uint256 _value
+    );
+
     function name() public pure returns (string memory) {
         return "Banana";
     }
@@ -36,6 +44,7 @@ contract Banana {
 
         balances[msg.sender] -= _value;
         balances[_to] += _value;
+        emit Transfer(msg.sender, _to, _value);
         return true;
     }
 
@@ -43,7 +52,14 @@ contract Banana {
         address _from,
         address _to,
         uint256 _value
-    ) public returns (bool success) {}
+    ) public returns (bool success) {
+        if (_allowances[_from][msg.sender] < _value) {
+            return false;
+        }
+        _allowances[_from][msg.sender] -= _value;
+        balances[_to] += _value;
+        return true;
+    }
 
     function approve(
         address _spender,
@@ -52,7 +68,9 @@ contract Banana {
         if (balances[msg.sender] < _value) {
             return false;
         }
+
         _allowances[msg.sender][_spender] = _value;
+        emit Approval(msg.sender, _spender, _value);
         return true;
     }
 
@@ -63,15 +81,12 @@ contract Banana {
         return _allowances[_owner][_spender];
     }
 
-    function burnFromBalance(
-        address _from,
-        uint256 _value
-    ) public returns (bool success) {
-        if (balances[_from] < _value) {
+    function burn(uint256 _value) public returns (bool success) {
+        if (balances[msg.sender] < _value) {
             return false;
         }
 
-        balances[_from] -= _value;
+        balances[msg.sender] -= _value;
         _totalSupply -= _value;
         return true;
     }
