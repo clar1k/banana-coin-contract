@@ -8,14 +8,15 @@ contract BananaTest is Test {
     Banana public banana;
     address alice = vm.addr(0x1323);
     address bob = vm.addr(0x2);
+    uint[] public fixtureValue = [1, 5, 555];
 
     function setUp() public {
         banana = new Banana();
     }
 
-    function _mintAlice() private {
+    function _mintAlice(uint _value) private {
         vm.prank(alice);
-        banana.mint(alice, 2e18);
+        banana.mint(alice, _value);
     }
 
     function test_mintTokensAndTotalSupply() public {
@@ -37,7 +38,7 @@ contract BananaTest is Test {
     }
 
     function test_transactionBetweenUsers() public {
-        _mintAlice();
+        _mintAlice(2e18);
         vm.startPrank(alice);
         banana.transfer(bob, 2e18);
         assertEq(banana.balanceOf(alice), 0);
@@ -46,7 +47,7 @@ contract BananaTest is Test {
     }
 
     function test_allowance_transferFrom() public {
-        _mintAlice();
+        _mintAlice(2e18);
 
         vm.startPrank(alice);
         banana.approve(bob, 1e18);
@@ -59,6 +60,16 @@ contract BananaTest is Test {
         assertEq(banana.balanceOf(bob), 1e18);
         assertEq(banana.allowance(alice, bob), 0);
 
+        vm.stopPrank();
+    }
+
+    function test_burn() public {
+        _mintAlice(10);
+
+        vm.startPrank(alice);
+        uint balance = banana.balanceOf(alice);
+        banana.burn(5);
+        assertNotEq(balance, balance - 5);
         vm.stopPrank();
     }
 }

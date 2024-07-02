@@ -82,12 +82,13 @@ contract Banana {
     }
 
     function burn(uint256 _value) public returns (bool success) {
-        if (balances[msg.sender] < _value) {
+        // 5 > 10 ???? false
+        if (_value > balances[msg.sender]) {
             return false;
         }
 
-        balances[msg.sender] -= _value;
         _totalSupply -= _value;
+        balances[msg.sender] -= _value;
         return true;
     }
 

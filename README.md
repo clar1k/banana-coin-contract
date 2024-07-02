@@ -19,5 +19,5 @@
 - [x] Allowance
 - [x] Total supply
 - [x] Mint
-- [ ] Burn
+- [x] Burn
 - [ ] Fuzzy testing
