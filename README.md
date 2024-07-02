@@ -11,4 +11,13 @@
 - [x] Burn mechanism
 - [x] Check if it matches the ERC-20 standard
 - [x] Add events for ERC-20 implementation
-- [ ] Write tests with foundry
+
+## Tests
+
+- [x] Write tests with foundry
+- [x] Transaction
+- [x] Allowance
+- [x] Total supply
+- [x] Mint
+- [ ] Burn
+- [ ] Fuzzy testing
