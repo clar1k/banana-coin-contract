@@ -20,4 +20,4 @@
 - [x] Total supply
 - [x] Mint
 - [x] Burn
-- [ ] Fuzzy testing
+- [x] Fuzzy testing

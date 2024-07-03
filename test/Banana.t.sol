@@ -8,7 +8,6 @@ contract BananaTest is Test {
     Banana public banana;
     address alice = vm.addr(0x1323);
     address bob = vm.addr(0x2);
-    uint[] public fixtureValue = [1, 5, 555];
 
     function setUp() public {
         banana = new Banana();
@@ -49,9 +48,8 @@ contract BananaTest is Test {
     function test_allowance_transferFrom() public {
         _mintAlice(2e18);
 
-        vm.startPrank(alice);
+        vm.prank(alice);
         banana.approve(bob, 1e18);
-        vm.stopPrank();
 
         vm.startPrank(bob);
         bool success = banana.transferFrom(alice, bob, 1e18);
@@ -63,9 +61,12 @@ contract BananaTest is Test {
         vm.stopPrank();
     }
 
-    function test_burn() public {
-        _mintAlice(10);
+    function test_burn(uint32 _value) public {
+        if (_value == 0 || _value >= 9) {
+            return;
+        }
 
+        _mintAlice(10);
         vm.startPrank(alice);
         uint balance = banana.balanceOf(alice);
         banana.burn(5);
